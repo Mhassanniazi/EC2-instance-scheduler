@@ -1,0 +1,43 @@
+service: EC2-Schduler
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: us-east-2
+  iam:
+    role:
+      name: LAMBDA-EC2-PERMISSION
+      statements:
+        - Effect: Allow
+          Action: 
+            - 'ec2:StartInstances'
+            - 'ec2:StopInstances'
+          Resource: 'arn:aws:ec2:*:*:instance/*'
+
+functions:
+  start-EC2:    #FUNCTION-01
+    handler: functions/start_EC2_machine.lambda_handler
+    events:
+      - schedule: 
+          name: start_EC2_scheduler
+          description: To trigger Lambda function to start EC2 Instance
+          rate: cron(0 12 * * ? *)   #(Run at 12:00PM UTC -> 7:00AM EST)
+    package: 
+      individually: true
+      patterns:
+        - "!functions/**"
+        - "functions/start_EC2_machine.py"
+  
+  stop-EC2:     #FUNCTION-02
+    handler: functions/stop_EC2_machine.lambda_handler
+    events:
+      - schedule: 
+          name: stop_EC2_scheduler
+          description: To trigger Lambda function to stop Runnning EC2 Instance
+          rate: cron(0 14 * * ? *)   #(Run at 02:00PM UTC -> 9:00AM EST)
+    package: 
+      individually: true
+      patterns:
+        - "!functions/**"
+        - "functions/stop_EC2_machine.py"
