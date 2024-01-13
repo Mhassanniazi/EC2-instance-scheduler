@@ -1,4 +1,4 @@
-# AWS EC2 INSTANCE SCHEDULER 🤖
+<h1 align="center">AWS EC2 INSTANCE SCHEDULER 🤖</h1>
 
 Companies often run multiple Amazon Elastic Compute Cloud (EC2) instances to support their applications and workloads. However, keeping these instances running 24/7 can lead to unnecessary costs. To address this issue, we've developed an AWS EC2 Instance Scheduler - an open-source solution that allows you to automatically start and stop your EC2 instances based on your specified schedules.
 
